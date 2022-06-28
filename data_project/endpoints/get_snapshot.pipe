@@ -1,0 +1,18 @@
+DESCRIPTION >
+	This endpoints get the last snapshot all of pixels (optional filter by timestamp)
+
+
+NODE endpoint
+SQL >
+
+    %
+    SELECT x
+          ,y
+          ,argMax(color, timestamp) color
+      FROM pixels_table
+    {% if defined(date_start) %}
+    where  timestamp >= toDateTime({{DateTime(date_start)}})
+    {% end %}
+    group by x,y
+
+
