@@ -1,0 +1,32 @@
+NODE rplace_heatmap_pipe_0
+SQL >
+
+    WITH
+      toInt32((splitByChar(',', coordinate)[1])) as x,
+      toInt32((splitByChar(',', coordinate)[2])) as y
+    SELECT
+      ---180 + (x - 0)/(1999 - 0) * (180 - (-180)) as xx,
+      -90 + (x - 0)/(1999 - 0) * (90 - (-90)) as xx,
+      -90 + (y - 0)/(1999 - 0) * (90 - (-90)) as yy,
+      pixel_color, user_id
+    FROM (select * from rplace_canvas_history)
+
+
+
+NODE rplace_heatmap_pipe_1
+SQL >
+
+    SELECT
+        geohashEncode(xx, yy, 2) AS box,
+        countState() AS c,
+        pixel_color,
+        uniqState(user_id) AS users
+    FROM rplace_heatmap_pipe_0
+    GROUP BY
+        box,
+        pixel_color
+
+TYPE materialized
+DATASOURCE rplace_heatmap_mv
+ENGINE "AggregatingMergeTree"
+ENGINE_SORTING_KEY "box, pixel_color"

@@ -1,0 +1,15 @@
+NODE rplace_counts_pipe_0
+SQL >
+
+    SELECT
+        countState() AS c,
+        coordinate,
+        user_id
+    FROM rplace_canvas_history
+    GROUP BY coordinate, user_id
+
+TYPE materialized
+DATASOURCE rplace_counts_mv
+ENGINE "AggregatingMergeTree"
+ENGINE_SORTING_KEY "user_id, coordinate"
+

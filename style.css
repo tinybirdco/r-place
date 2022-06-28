@@ -10,10 +10,6 @@ html {
 
 body {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   margin: 0;
   padding: 0;
   width: 100%;
@@ -25,25 +21,22 @@ body {
 }
 
 .header {
+  margin: auto;
   max-width: 1040px;
   width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 32px;
+  padding: 32px;
 }
 
 .brand {
   width: 124px;
 }
 
-.main {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .drawing-board {
+  width: 1040px;
+  margin: auto;
   border-radius: 6px;
   padding: 20px;
   position: relative;
@@ -124,4 +117,5 @@ body {
   width: 10px;
   margin-right: 5px;
   display: none;
+  cursor: pointer;
 }
