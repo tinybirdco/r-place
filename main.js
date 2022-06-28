@@ -5,17 +5,23 @@ const TB_API_URL = "https://api.tinybird.co";
 const CANVAS_WIDTH = 1000;
 const CANVAS_HEIGHT = 500;
 
+const canvas = document.getElementById("board");
+const ctx = canvas.getContext("2d");
+
 const colorpicker = document.getElementById("colorpicker");
 const datepicker = document.getElementById("datepicker");
 const removeDatepicker = document.getElementById("remove-datepicker");
 
-const canvas = document.getElementById("board");
-const colorBox = document.getElementById("color-box");
-const ctx = canvas.getContext("2d");
-
 let pixels = [];
 let isPressed = false;
 let realtime = true;
+
+const draw = function ({ x, y, color }) {
+  ctx.beginPath();
+  ctx.fillStyle = color;
+  ctx.fillRect(x, y, 1, 1);
+  ctx.fill();
+};
 
 const printSnapshot = function ({ dateStart, dateEnd } = {}) {
   const dateParam = dateStart
@@ -40,6 +46,27 @@ const printSnapshot = function ({ dateStart, dateEnd } = {}) {
         draw(item);
       });
     });
+};
+
+const ingestPixels = function (pixels) {
+  const ndjson = pixels
+    .map((item) => ({ ...item, timestamp: now() }))
+    .reduce(
+      (prev, current) =>
+        `${prev}
+${JSON.stringify(current)}`,
+      ""
+    );
+
+  fetch(`${TB_API_URL}/v0/events?name=pixels_table`, {
+    method: "POST",
+    headers: new Headers({
+      Authorization: `Bearer ${TB_TOKEN}`,
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    }),
+    body: ndjson,
+  });
 };
 
 const init = function () {
@@ -81,34 +108,6 @@ const now = function (lag = 0) {
   return `${date} ${time}`;
 };
 
-const ingestPixels = function (pixels) {
-  const ndjson = pixels
-    .map((item) => ({ ...item, timestamp: now() }))
-    .reduce(
-      (prev, current) =>
-        `${prev}
-${JSON.stringify(current)}`,
-      ""
-    );
-
-  fetch(`${TB_API_URL}/v0/events?name=pixels_table`, {
-    method: "POST",
-    headers: new Headers({
-      Authorization: `Bearer ${TB_TOKEN}`,
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    }),
-    body: ndjson,
-  });
-};
-
-const draw = function ({ x, y, color }) {
-  ctx.beginPath();
-  ctx.fillStyle = color;
-  ctx.fillRect(x, y, 1, 1);
-  ctx.fill();
-};
-
 const onPressBrush = function (event) {
   isPressed = true;
   useBrush(event);
@@ -143,8 +142,9 @@ window.setInterval(function () {
   }
 }, 1000);
 
-// colorPicker
+// colorPicker ui
 colorpicker.oninput = function () {
+  const colorBox = document.getElementById("color-box");
   colorBox.style.backgroundColor = this.value;
 };
 
