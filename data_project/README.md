@@ -57,7 +57,7 @@ tb push --fixtures
   
 Your data project is ready for realtime analysis. You can check the UI's Data flow to see how it looks.
 
-<img width="873" alt="image" src="https://user-images.githubusercontent.com/51535157/171652448-8ce46bbb-8194-4d6c-89e8-53f0c816a4df.png">
+![Screenshot 2022-06-29 at 09 58 53](https://user-images.githubusercontent.com/623650/176415259-b30d07a1-e3ff-49d0-a9aa-41525ef1b025.png)
 
 
 ## Ingesting data using high-frequency ingestion (HFI)
