@@ -3,12 +3,12 @@ SQL >
 
     SELECT
         countState() AS c,
-        coordinate
+        user_id
     FROM rplace_canvas_history
-    GROUP BY coordinate
+    GROUP BY user_id
 
 TYPE materialized
-DATASOURCE rplace_counts_mv
+DATASOURCE rplace_users_mv
 ENGINE "AggregatingMergeTree"
-ENGINE_SORTING_KEY "coordinate"
+ENGINE_SORTING_KEY "user_id"
 

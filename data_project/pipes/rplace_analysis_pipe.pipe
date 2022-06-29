@@ -48,7 +48,7 @@ SQL >
 NODE most_active_users
 SQL >
 
-    SELECT countMerge(c) c, user_id FROM rplace_counts_mv
+    SELECT countMerge(c) c, user_id FROM rplace_users_mv
     group by user_id
     order by c desc limit 100
 
