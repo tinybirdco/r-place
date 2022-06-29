@@ -128,7 +128,9 @@ const onRaiseBrush = function () {
 const useBrush = function (event) {
   if (isPressed) {
     const pixel = getPixelClicked(canvas, event);
-    pixels.push(pixel);
+    if (!pixels.find((item) => pixel.x === item.x && pixel.y === item.y)) {
+      pixels.push(pixel);
+    }
     draw(pixel);
   }
 };
