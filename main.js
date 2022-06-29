@@ -1,5 +1,11 @@
-const TB_TOKEN =
-  "p.eyJ1IjogIjM0YmRiNTJkLTRiYjYtNDljZi04ZjdjLWI4MmM3MjVmNjRmNSIsICJpZCI6ICJiYzYwZjYzOC1lYzAwLTQxYTgtODhkNS05ZmNhZmNhNmI0MDUifQ.BBKGRtAlvq_cFP-anEaaYi6WSViUWQuVAvB_kSY4qig";
+const TB_TOKEN = import.meta.env.VITE_TB_TOKEN;
+
+if (!TB_TOKEN) {
+  alert(
+    "go to https://ui.tinybird.co/tokens fill your public_read_token in your local .env file"
+  );
+}
+
 const TB_API_URL = "https://api.tinybird.co";
 
 const CANVAS_WIDTH = 1000;
@@ -25,9 +31,9 @@ const draw = function ({ x, y, color }) {
 
 const printSnapshot = function ({ dateStart, dateEnd } = {}) {
   const dateParam = dateStart
-    ? `?date_start=${dateStart}`
+    ? `?start_date=${dateStart}`
     : dateEnd
-    ? `?date_end=${dateEnd}`
+    ? `?historic_date=${dateEnd}`
     : "";
 
   fetch(`${TB_API_URL}/v0/pipes/get_snapshot.json${dateParam}`, {
@@ -50,7 +56,7 @@ const printSnapshot = function ({ dateStart, dateEnd } = {}) {
 
 const ingestPixels = function (pixels) {
   const ndjson = pixels
-    .map((item) => ({ ...item, timestamp: now() }))
+    .map((item) => ({ ...item, date: now() }))
     .reduce(
       (prev, current) =>
         `${prev}

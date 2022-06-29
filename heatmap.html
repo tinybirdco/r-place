@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <style>
+      body, html, h2 { margin:0; padding:0; height:100%;}
+      body { font-family:sans-serif; background-color: #2d2d2d;}
+      body * { font-weight:200;}
+      #heatmapContainerWrapper { width:100%; height:100%; position:absolute; background:rgba(0,0,0,.1); }
+      #heatmapContainer { width:100%; height:100%;}
+    </style>
+  </head>
+  <body>
+    <div id="heatmapContainerWrapper">
+      <div id="heatmapContainer">
+
+      </div>
+    </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/heatmap.js/2.0.0/heatmap.min.js" integrity="sha512-FpvmtV53P/z7yzv1TAIVH7PNz94EKXs5aV6ts/Zi+B/VeGU5Xwo6KIbwpTgKc0d4urD/BtkK50IC9785y68/AA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="main.js" async defer></script>
+    <script>
+      window.onload = function() {
+        // helper function
+        function $(id) {
+          return document.getElementById(id);
+        };
+        
+        // create a heatmap instance
+        var heatmap = h337.create({
+          container: document.getElementById('heatmapContainer'),
+          gradient: {
+            '.1': '#ff8177',
+            '.21': '#ff8c7f',
+            '.52': '#f99185',
+            '.95': '#b12a5b'
+            }
+        });
+
+        // boundaries for data generation
+        var width = (+window.getComputedStyle(document.body).width.replace(/px/,''));
+        var height = (+window.getComputedStyle(document.body).height.replace(/px/,''));
+
+        var generate = function() {
+            fetch(`https://api.tinybird.co/v0/pipes/rplace_analysis_pipe.json?token=${TB_TOKEN}`)
+                .then(response => response.json())
+                .then(data => {
+                    var max = 2322569;
+                    var min = 780;
+                    data = data['data'];
+                    heatmap.setData({
+                        min: min,
+                        max: max,
+                        data: data
+                    });
+
+                });
+        };
+
+        generate();
+
+        // whenever a user clicks on the ContainerWrapper the data will be regenerated -> new max & min
+        document.getElementById('heatmapContainerWrapper').onclick = function() { generate(); };
+      };
+    </script>
+  </body>
+</html>

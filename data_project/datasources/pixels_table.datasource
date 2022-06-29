@@ -1,10 +1,10 @@
 SCHEMA >
-    `timestamp` DateTime `json:$.timestamp`,
+    `date` DateTime `json:$.date`,
     `x` UInt16 `json:$.x`,
     `y` UInt16 `json:$.y`,
     `color` String `json:$.color`
 
 ENGINE MergeTree
-ENGINE_SORTING_KEY timestamp, x, y
-ENGINE_PARTITION_KEY toYYYYMMDD(timestamp)
+ENGINE_SORTING_KEY date, x, y
+ENGINE_PARTITION_KEY toYYYYMMDD(date)
     
