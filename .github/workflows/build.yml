@@ -19,10 +19,7 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: npm run build 
-    - run:  |
-          git config --global user.name 'GitHub action' 
-          git config --global user.email 'team@tinybird.co'
-          git checkout gh-pages
-          git add ./dist -f 
-          git commit -m 'Automated deploy to gh-pages'
-          git push
+    - name: Deploy 🚀
+      uses: JamesIves/github-pages-deploy-action@v4
+      with:
+        folder: dist
