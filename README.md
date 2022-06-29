@@ -4,8 +4,10 @@ This project creates a replica of the r/place canvas. Several people can collabo
 
 Alternatively you can go at any point in time to the original 2022 r/place canvas.
 
+![](./assets/canvas.png)
+
 ## How to run
 
 - Go to the `data_project` directory in this repository and follow the `README.md` instructions to configure the Tinybird workspace.
-- Make sure you fill in the `TB_TOKEN` in the `main.js` file to connect to your Tinybird workspace.
+- Make sure you fill in the `TB_TOKEN` and `TB_API_URL` in the `main.js` file to connect to your Tinybird workspace.
 - Run the application in a web server.
