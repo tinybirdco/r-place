@@ -146,9 +146,9 @@ canvas.onmouseup = realtime ? onRaiseBrush : () => {};
 
 window.setInterval(function () {
   if (realtime) {
-    printSnapshot({ dateStart: now(10) });
+    printSnapshot({ dateStart: now(5) });
   }
-}, 1000);
+}, 2000);
 
 // colorPicker ui
 colorpicker.oninput = function () {
