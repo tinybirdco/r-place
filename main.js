@@ -148,7 +148,7 @@ window.setInterval(function () {
   if (realtime) {
     printSnapshot({ dateStart: now(5) });
   }
-}, 2000);
+}, 3000);
 
 // colorPicker ui
 colorpicker.oninput = function () {
