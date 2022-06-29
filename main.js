@@ -1,8 +1,8 @@
 const TB_TOKEN = null;
 if (!TB_TOKEN) {
-  alert("go to https://ui.tinybird.co/tokens and fill your public_read_token")
-  return
+  alert("go to https://ui.tinybird.co/tokens fill your public_read_token in the 'main.js' file and reload the page");
 }
+
 const TB_API_URL = "https://api.tinybird.co";
 
 const CANVAS_WIDTH = 1000;
