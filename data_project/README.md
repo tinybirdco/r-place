@@ -2,11 +2,11 @@
 
 This repository contains the data project —[datasources](./datasources), and [endpoints](./endpoints)— and [data-generator](./rplace.py) scripts for an r/place example of using Tinybird.
 
-You can find more informat about this project on [r/place](https://www.reddit.com/r/place/)
+You can find more information about this project on [r/place](https://www.reddit.com/r/place/)
 
 To clone the repository:
 
-`git clone https://github.com/raqyuste/r-place.git`
+`git clone https://github.com/tinybirdco/r-place.git`
 
 `cd r-place`
 
@@ -16,6 +16,7 @@ To start working with data projects as if they were software projects, let's ins
 Check the [CLI documentation](https://docs.tinybird.co/cli.html) for other installation options and troubleshooting.
 
 ```bash
+cd data_project
 virtualenv -p python3 .e
 . .e/bin/activate
 pip install tinybird-cli
@@ -112,3 +113,25 @@ You will receive a response similar to this:
 ```
 
 This project shows just some of the features of Tinybird. If you have any questions, come along and join our community [Slack](https://join.slack.com/t/tinybird-community/shared_invite/zt-yi4hb0ht-IXn9iVuewXIs3QXVqKS~NQ)!
+
+
+## Recreate the r/place 2022 canvas
+
+The datafile `rplace_canvas_history.datasource` contains the schema for the r/place 2022 [dataset](https://storage.googleapis.com/alrocar/2022_place_canvas_history.csv).
+
+To append all historical data run:
+
+```sh
+tb datasource append rplace_canvas_history https://storage.googleapis.com/alrocar/2022_place_canvas_history.csv
+```
+
+There are several Materialized Pipes triggered by this Data Source:
+
+- `rplace_counts_pipe` Some pre-aggregations to count number of pixels and users
+- `rplace_hetmap_pipe` An utility to aggregate pixel counts in a geohash for heatmap visualization.
+
+Additionaly `rplace_analysis_pipe` publishes an endpoint that can be consumed from `/heatmap.html` to visualize hot areas in the canvas and some basic analysis.
+
+The `get_snapshot` API endpoint will fallback to the `rplace_canvas_history` data if you pass a `historic_date` paramater, that way you can recreate in the canvas any point in time.
+
+![](../assets/canvas.png)
