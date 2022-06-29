@@ -4,8 +4,6 @@ name: Build CI
 on:
   push:
     branches: [ "master" ]
-env:
-  VITE_TB_TOKEN: ${{secrets.VITE_TB_TOKEN}}
 
 jobs:
   build:
@@ -20,7 +18,10 @@ jobs:
         node-version:  16.x
         cache: 'npm'
     - run: npm ci
-    - run: npm run build 
+    - name: Build
+      env:
+        VITE_TB_TOKEN: ${{ secrets.VITE_TB_TOKEN }}
+      run: npm run build 
     - name: Deploy 🚀
       uses: JamesIves/github-pages-deploy-action@v4
       with:
